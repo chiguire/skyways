@@ -48,6 +48,12 @@ bool GameScene::init()
     planetSprites = CCArray::create();
     planetSprites->retain();
 
+    stationSprites = CCArray::create();
+    stationSprites->retain();
+
+    shipSprites = CCArray::create();
+    shipSprites->retain();
+
     gameplayLayer = CCLayer::create();
     initGameplayLayer(gameModel);
     addChild(gameplayLayer);
@@ -73,6 +79,11 @@ bool GameScene::init()
     return true;
 }
 
+void GameScene::registerWithTouchDispatcher()
+{
+	CCDirector::sharedDirector()->getTouchDispatcher()->addTargetedDelegate(this, 0, true);
+}
+
 void GameScene::initGameplayLayer(GameModel *gm) {
   CCObject *obj;
   CCARRAY_FOREACH(gm->planets, obj) {
@@ -81,6 +92,8 @@ void GameScene::initGameplayLayer(GameModel *gm) {
     PlanetSprite *ps = PlanetSprite::create(pm);
     gameplayLayer->addChild(ps);
     ps->registerPhysics(gm->pWorld);
+
+    planetSprites->addObject(ps);
   }
 
   CCARRAY_FOREACH(gm->stations, obj) {
@@ -89,6 +102,8 @@ void GameScene::initGameplayLayer(GameModel *gm) {
     StationSprite *ss = StationSprite::create(sm);
     gameplayLayer->addChild(ss);
     ss->registerPhysics(gm->pWorld);
+
+    stationSprites->addObject(ss);
   }
   
   CCARRAY_FOREACH(gm->ships, obj) {
@@ -97,11 +112,22 @@ void GameScene::initGameplayLayer(GameModel *gm) {
     ShipSprite *ss = ShipSprite::create(sm);
     gameplayLayer->addChild(ss);
     ss->registerPhysics(gm->pWorld);
+
+    shipSprites->addObject(ss);
   }
 }
 
 void GameScene::update(float dt) {
   gameModel->update(dt);
+  CCObject *obj;
+  CCARRAY_FOREACH(stationSprites, obj) {
+    StationSprite *ss = dynamic_cast<StationSprite *>(obj);
+    ss->update(dt);
+  }
+  CCARRAY_FOREACH(shipSprites, obj) {
+    ShipSprite *ss = dynamic_cast<ShipSprite *>(obj);
+    ss->update(dt);
+  }
 }
 
 void GameScene::pauseHandler(CCObject* pSender)
@@ -126,9 +152,9 @@ void GameScene::ccTouchMoved(CCTouch *pTouch, CCEvent *pEvent) {
 }
 
 void GameScene::ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent) {
-  gameModel->endTouchHole();
+  gameModel->endTouchHole(pTouch);
 }
 
 void GameScene::ccTouchCancelled(CCTouch *pTouch, CCEvent *pEvent){ 
-  gameModel->endTouchHole();
+  gameModel->endTouchHole(pTouch);
 }

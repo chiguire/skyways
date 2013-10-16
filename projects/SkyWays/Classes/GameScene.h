@@ -13,6 +13,8 @@ class GameScene : public cocos2d::CCLayer
   Box2DDebugLayer *debugLayer;
 
   CCArray *planetSprites;
+  CCArray *stationSprites;
+  CCArray *shipSprites;
   
 public:
     // Here's a difference. Method 'init' in cocos2d-x returns bool, instead of returning 'id' in cocos2d-iphone
@@ -25,6 +27,7 @@ public:
 
     void update(float dt);
 
+	virtual void registerWithTouchDispatcher();
     virtual bool ccTouchBegan(CCTouch* touch, CCEvent* event);
 	  virtual void ccTouchMoved(CCTouch* touch, CCEvent* event);
 	  virtual void ccTouchEnded(CCTouch* touch, CCEvent* event);

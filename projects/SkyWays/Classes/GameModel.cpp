@@ -29,7 +29,11 @@ GameModel::GameModel() {
 	pWorld = new b2World(b2Vec2(0.0f, 0.0f));
 	pWorld->SetAllowSleeping(true);
 	pWorld->SetContactListener(this);
+
+	b2BodyDef def;
+	groundBody = pWorld->CreateBody(&def);
 	
+	touchId = SCREEN_NOTOUCH;
 }
 
 void GameModel::reset() {
@@ -49,10 +53,60 @@ void GameModel::reset() {
 
   ships->addObject(createShip(ccp(500.0f, 100.0f), "ship.png"));
   
+  touchId = SCREEN_NOTOUCH;
 }
 
 void GameModel::update(float time) {
   pWorld->Step(time, 8, 3);
+}
+
+void GameModel::beginTouchHole(CCTouch *pTouch) {
+  if (touchId == SCREEN_NOTOUCH) {
+    touchId = pTouch->getID();
+	createTouchHole(pTouch);
+    
+  }
+}
+
+void GameModel::moveTouchHole(CCTouch *pTouch) {
+  if (touchId != SCREEN_NOTOUCH) {
+    fingerPosition.setPoint(pTouch->getLocation().x/PTM_RATIO, pTouch->getLocation().y/PTM_RATIO);
+  	fingerBody->SetTransform(b2Vec2(fingerPosition.x, fingerPosition.y), 0);
+  }
+}
+
+void GameModel::endTouchHole(CCTouch *pTouch) {
+  if (touchId != SCREEN_NOTOUCH) {
+    touchId = SCREEN_NOTOUCH;
+	destroyTouchHole(pTouch);
+  }
+}
+
+void GameModel::createTouchHole(CCTouch *touch) {
+  b2BodyDef bodyDef;
+  bodyDef.type = b2_dynamicBody;
+  fingerPosition.setPoint(touch->getLocation().x/PTM_RATIO, touch->getLocation().y/PTM_RATIO);
+
+  bodyDef.position.Set(fingerPosition.x, fingerPosition.y);
+  bodyDef.allowSleep = false;
+
+  fingerBody = pWorld->CreateBody(&bodyDef);
+  fingerBody->SetUserData(this);
+
+  b2CircleShape shape;
+  shape.m_radius = 3.0f;
+
+  b2FixtureDef leDef;
+  leDef.isSensor = true;
+  leDef.shape = &shape;
+
+  fingerBody->CreateFixture(&leDef);
+}
+
+void GameModel::destroyTouchHole(CCTouch *touch) {
+  fingerBody->SetUserData(NULL);
+	pWorld->DestroyBody(fingerBody);
+	fingerBody = NULL;
 }
 
 void GameModel::BeginContact(b2Contact* contact){

@@ -20,6 +20,9 @@ protected:
   ShipModel *model;
 
 	b2Fixture *bodyFixture;
+  
+  CCArray *planetsInVicinity;
+  GameModel *touchGameModel;
 
 public:
 	ShipSprite();
@@ -30,7 +33,9 @@ public:
 	void registerPhysics(b2World *world);
 
 	virtual void update(float dt);
-	virtual void applyForces();
+
+  virtual void beginContact(TileObject *o);
+	virtual void endContact(TileObject *o);
 
 	CC_SYNTHESIZE(int,spriteFrameNumber,SpriteFrameNumber);
 };
