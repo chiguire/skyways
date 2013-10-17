@@ -60,6 +60,12 @@
     <ClCompile Include="..\Classes\StationSprite.cpp">
       <Filter>Classes\Sprites</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\FingerObject.cpp">
+      <Filter>Classes\Sprites</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\SpaceBoundaries.cpp">
+      <Filter>Classes\Sprites</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -105,6 +111,12 @@
       <Filter>Classes\Sprites</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\StationSprite.h">
+      <Filter>Classes\Sprites</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\FingerObject.h">
+      <Filter>Classes\Sprites</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\SpaceBoundaries.h">
       <Filter>Classes\Sprites</Filter>
     </ClInclude>
   </ItemGroup>

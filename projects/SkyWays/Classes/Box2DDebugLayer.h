@@ -1,9 +1,9 @@
 /*
- * Box2DDebugLayer.h
- *
- *  Created on: 13/06/2013
- *      Author: Ciro
- */
+* Box2DDebugLayer.h
+*
+*  Created on: 13/06/2013
+*      Author: Ciro
+*/
 
 #ifndef BOX2DDEBUGLAYER_H_
 #define BOX2DDEBUGLAYER_H_
@@ -17,15 +17,15 @@ USING_NS_CC;
 
 class Box2DDebugLayer : public CCLayer {
 public:
-	Box2DDebugLayer();
-	virtual ~Box2DDebugLayer();
+  Box2DDebugLayer();
+  virtual ~Box2DDebugLayer();
 
-	bool init();
-	virtual void draw();
+  bool init();
+  virtual void draw();
 
-	GameModel *gameModel;
+  GameModel *gameModel;
 
-	CREATE_FUNC(Box2DDebugLayer);
+  CREATE_FUNC(Box2DDebugLayer);
 };
 
 #endif /* BOX2DDEBUGLAYER_H_ */

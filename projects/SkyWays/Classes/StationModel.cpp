@@ -1,17 +1,18 @@
 /*
- * StationModel.cpp
- *
- *  Created on: 29/05/2013
- *      Author: Ciro
- */
+* StationModel.cpp
+*
+*  Created on: 29/05/2013
+*      Author: Ciro
+*/
 
 #include "DictUtils.h"
 #include "Common.h"
 #include "StationModel.h"
+#include "StationSprite.h"
 
 StationModel::StationModel()
-: position()
-, spriteFrameName(NULL)
+  : position()
+  , spriteFrameName(NULL)
 {
 }
 
@@ -24,17 +25,17 @@ bool StationModel::init(CCDictionary *root) {
   spriteFrameName = getStringForCCDictionary(root, PLANETMODEL_SPRITEFRAMENAME, "enemyShip.png");
   spriteFrameName->retain();
 
-	return true;
+  return true;
 }
 
 StationModel *StationModel::create(CCDictionary *dict) {
-	StationModel *pRet = new StationModel();
-	if (pRet && pRet->init(dict)) {
-		pRet->autorelease();
-	}
-	else
-	{
-		CC_SAFE_DELETE(pRet);
-	}
-	return pRet;
+  StationModel *pRet = new StationModel();
+  if (pRet && pRet->init(dict)) {
+    pRet->autorelease();
+  }
+  else
+  {
+    CC_SAFE_DELETE(pRet);
+  }
+  return pRet;
 }

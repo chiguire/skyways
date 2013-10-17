@@ -3,11 +3,12 @@
 
 #include "cocos2d.h"
 #include "GameModel.h"
+#include "SpaceBoundaries.h"
 #include "Box2DDebugLayer.h"
 class GameScene : public cocos2d::CCLayer
 {
   GameModel *gameModel;
-  
+
   CCMenu *gameUI;
   CCLayer *gameplayLayer;
   Box2DDebugLayer *debugLayer;
@@ -15,29 +16,32 @@ class GameScene : public cocos2d::CCLayer
   CCArray *planetSprites;
   CCArray *stationSprites;
   CCArray *shipSprites;
-  
+
+  SpaceBoundaries *boundaries;
+
 public:
-    // Here's a difference. Method 'init' in cocos2d-x returns bool, instead of returning 'id' in cocos2d-iphone
-    virtual bool init();  
+  // Here's a difference. Method 'init' in cocos2d-x returns bool, instead of returning 'id' in cocos2d-iphone
+  virtual bool init();  
 
-    // there's no 'id' in cpp, so we recommend returning the class instance pointer
-    static cocos2d::CCScene* scene();
-    
-    void initGameplayLayer(GameModel *gm);
+  // there's no 'id' in cpp, so we recommend returning the class instance pointer
+  static cocos2d::CCScene* scene();
 
-    void update(float dt);
+  void initGameplayLayer(GameModel *gm);
 
-	virtual void registerWithTouchDispatcher();
-    virtual bool ccTouchBegan(CCTouch* touch, CCEvent* event);
-	  virtual void ccTouchMoved(CCTouch* touch, CCEvent* event);
-	  virtual void ccTouchEnded(CCTouch* touch, CCEvent* event);
-	  virtual void ccTouchCancelled(CCTouch *touch, CCEvent* event);
+  void update(float dt);
+  void launchShipHandler(float dt);
 
-    // a selector callback
-    void pauseHandler(CCObject* pSender);
-    
-    // implement the "static node()" method manually
-    CREATE_FUNC(GameScene);
+  virtual void registerWithTouchDispatcher();
+  virtual bool ccTouchBegan(CCTouch* touch, CCEvent* event);
+  virtual void ccTouchMoved(CCTouch* touch, CCEvent* event);
+  virtual void ccTouchEnded(CCTouch* touch, CCEvent* event);
+  virtual void ccTouchCancelled(CCTouch *touch, CCEvent* event);
+
+  // a selector callback
+  void pauseHandler(CCObject* pSender);
+
+  // implement the "static node()" method manually
+  CREATE_FUNC(GameScene);
 };
 
 #endif // __GAMESCENE_H__

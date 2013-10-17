@@ -1,17 +1,18 @@
 /*
- * ShipModel.cpp
- *
- *  Created on: 29/05/2013
- *      Author: Ciro
- */
+* ShipModel.cpp
+*
+*  Created on: 29/05/2013
+*      Author: Ciro
+*/
 
 #include "DictUtils.h"
 #include "Common.h"
 #include "ShipModel.h"
 
 ShipModel::ShipModel()
-: position()
-, spriteFrameName(NULL)
+  : position()
+  , destinationStation(NULL)
+  , spriteFrameName(NULL)
 {
 }
 
@@ -24,17 +25,17 @@ bool ShipModel::init(CCDictionary *root) {
   spriteFrameName = getStringForCCDictionary(root, PLANETMODEL_SPRITEFRAMENAME, "ship.png");
   spriteFrameName->retain();
 
-	return true;
+  return true;
 }
 
 ShipModel *ShipModel::create(CCDictionary *dict) {
-	ShipModel *pRet = new ShipModel();
-	if (pRet && pRet->init(dict)) {
-		pRet->autorelease();
-	}
-	else
-	{
-		CC_SAFE_DELETE(pRet);
-	}
-	return pRet;
+  ShipModel *pRet = new ShipModel();
+  if (pRet && pRet->init(dict)) {
+    pRet->autorelease();
+  }
+  else
+  {
+    CC_SAFE_DELETE(pRet);
+  }
+  return pRet;
 }

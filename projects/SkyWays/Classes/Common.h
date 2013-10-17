@@ -12,7 +12,8 @@
 #define PLANETMODEL_POSITION_X "positionX"
 #define PLANETMODEL_POSITION_Y "positionY"
 #define PLANETMODEL_GRAVITY "gravity"
-#define PLANETMODEL_SIZE "size"
+#define PLANETMODEL_PLANET_RADIUS "planetRadius"
+#define PLANETMODEL_GRAVITY_FIELD_RADIUS "gravityFieldRadius"
 #define PLANETMODEL_BLACKHOLE "isBlackHole"
 #define PLANETMODEL_SPRITEFRAMENAME "spriteFrameName"
 

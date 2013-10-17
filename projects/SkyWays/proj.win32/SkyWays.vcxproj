@@ -129,6 +129,7 @@ xcopy /Y /Q "$(ProjectDir)..\..\..\external\libwebsockets\win32\lib\*.*" "$(OutD
   <ItemGroup>
     <ClCompile Include="..\Classes\AppDelegate.cpp" />
     <ClCompile Include="..\Classes\Box2DDebugLayer.cpp" />
+    <ClCompile Include="..\Classes\FingerObject.cpp" />
     <ClCompile Include="..\Classes\GameModel.cpp" />
     <ClCompile Include="..\Classes\GLES-Render.cpp" />
     <ClCompile Include="..\Classes\GameScene.cpp" />
@@ -136,6 +137,7 @@ xcopy /Y /Q "$(ProjectDir)..\..\..\external\libwebsockets\win32\lib\*.*" "$(OutD
     <ClCompile Include="..\Classes\PlanetSprite.cpp" />
     <ClCompile Include="..\Classes\ShipModel.cpp" />
     <ClCompile Include="..\Classes\ShipSprite.cpp" />
+    <ClCompile Include="..\Classes\SpaceBoundaries.cpp" />
     <ClCompile Include="..\Classes\StationModel.cpp" />
     <ClCompile Include="..\Classes\StationSprite.cpp" />
     <ClCompile Include="..\Classes\TileObject.cpp" />
@@ -146,6 +148,7 @@ xcopy /Y /Q "$(ProjectDir)..\..\..\external\libwebsockets\win32\lib\*.*" "$(OutD
     <ClInclude Include="..\Classes\Box2DDebugLayer.h" />
     <ClInclude Include="..\Classes\Common.h" />
     <ClInclude Include="..\Classes\DictUtils.h" />
+    <ClInclude Include="..\Classes\FingerObject.h" />
     <ClInclude Include="..\Classes\GameModel.h" />
     <ClInclude Include="..\Classes\GLES-Render.h" />
     <ClInclude Include="..\Classes\GameScene.h" />
@@ -153,6 +156,7 @@ xcopy /Y /Q "$(ProjectDir)..\..\..\external\libwebsockets\win32\lib\*.*" "$(OutD
     <ClInclude Include="..\Classes\PlanetSprite.h" />
     <ClInclude Include="..\Classes\ShipModel.h" />
     <ClInclude Include="..\Classes\ShipSprite.h" />
+    <ClInclude Include="..\Classes\SpaceBoundaries.h" />
     <ClInclude Include="..\Classes\StationModel.h" />
     <ClInclude Include="..\Classes\StationSprite.h" />
     <ClInclude Include="..\Classes\TileObject.h" />
