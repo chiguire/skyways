@@ -12,12 +12,16 @@ class GameScene : public cocos2d::CCLayer
   CCMenu *gameUI;
   CCLayer *gameplayLayer;
   Box2DDebugLayer *debugLayer;
+  CCLabelBMFont *shipStatus;
 
   CCArray *planetSprites;
   CCArray *stationSprites;
   CCArray *shipSprites;
 
   SpaceBoundaries *boundaries;
+
+  CCAction *iconAnimation;
+  CCAction *handPointerAction;
 
 public:
   // Here's a difference. Method 'init' in cocos2d-x returns bool, instead of returning 'id' in cocos2d-iphone

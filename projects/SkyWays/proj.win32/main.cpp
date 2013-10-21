@@ -16,7 +16,7 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
   AppDelegate app;
   CCEGLView* eglView = CCEGLView::sharedOpenGLView();
   eglView->setViewName("SkyWays");
-  eglView->setFrameSize(800, 600);
+  eglView->setFrameSize(1024, 600);
 
   return CCApplication::sharedApplication()->run();
 }

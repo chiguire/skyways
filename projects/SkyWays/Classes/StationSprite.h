@@ -18,8 +18,6 @@ class StationModel;
 
 class StationSprite: public TileObject {
 protected:
-  StationModel *model;
-
   b2Fixture *bodyFixture;
 
 public:
@@ -34,8 +32,7 @@ public:
   virtual void applyForces();
 
   CC_SYNTHESIZE(int,spriteFrameNumber,SpriteFrameNumber);
-
-  CC_SYNTHESIZE(StationSprite *, sprite, Sprite);
+  CC_SYNTHESIZE(StationModel *, model, Model);
 };
 
 #endif /* STATIONSPRITE_H_ */

@@ -18,14 +18,12 @@ class ShipModel;
 
 class ShipSprite: public TileObject {
 protected:
-  ShipModel *model;
-
   b2Fixture *bodyFixture;
 
   CCArray *planetsInVicinity;
   FingerObject *fingerObject;
 
-  bool markedToRemove;
+  void unregisterPhysics();
 
 public:
   ShipSprite();
@@ -34,6 +32,7 @@ public:
   bool init(ShipModel *p);
   static ShipSprite *create(ShipModel *h);
   void registerPhysics(b2World *world);
+  void removeFromGame();
 
   virtual void update(float dt);
 
@@ -41,6 +40,9 @@ public:
   virtual void endContact(TileObject *o);
 
   CC_SYNTHESIZE(int,spriteFrameNumber,SpriteFrameNumber);
+  CC_SYNTHESIZE(bool,markedToRemoveKilled,MarkedToRemoveKilled);
+  CC_SYNTHESIZE(bool,markedToRemoveArrived,MarkedToRemoveArrived);
+  CC_SYNTHESIZE(ShipModel *,model,Model);
 };
 
 #endif /* SHIPSPRITE_H_ */

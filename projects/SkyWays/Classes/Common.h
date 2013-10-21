@@ -1,7 +1,10 @@
 #ifndef __COMMON_H__
 #define __COMMON_H__
 
-#define PTM_RATIO 32.0f
+#define PTM_RATIO (32.0f)
+#define TO_B2D_COORDS(__x__) ((__x__)/PTM_RATIO)
+#define FROM_B2D_COORDS(__x__) ((__x__)*PTM_RATIO)
+#define SPACE_BORDER (40.0f)
 
 #define USERDEFAULT_PLAYERNAME "playerName"
 #define USERDEFAULT_PLAYERNAME_DEFAULT "Player"

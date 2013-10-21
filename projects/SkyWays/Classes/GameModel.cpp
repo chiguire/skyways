@@ -42,12 +42,14 @@ void GameModel::reset() {
 
   planets->addObject(createPlanet(ccp(250.0f, 120.0f), 5.0f, 1.0f, 4.0f, false, "planet-1.png"));
   planets->addObject(createPlanet(ccp(500.0f, 350.0f), 5.0f, 1.0f, 5.0f, false, "planet-5.png"));
+  planets->addObject(createPlanet(ccp(750.0f, 450.0f), 5.0f, 1.5f, 4.0f, false, "planet-6.png"));
 
   stations = CCArray::create();
   stations->retain();
 
   stations->addObject(createStation(ccp(200.0f, 540.0f), "enemyShip.png"));
   stations->addObject(createStation(ccp(700.0f, 60.0f), "enemyShip.png"));
+  stations->addObject(createStation(ccp(900.0f, 300.0f), "enemyShip.png"));
 
   ships = CCArray::create();
   ships->retain();
@@ -55,6 +57,10 @@ void GameModel::reset() {
   //ships->addObject(createShip(ccp(500.0f, 100.0f), "ship.png"));
 
   fingerObject->touchId = SCREEN_NOTOUCH;
+
+  shipsArrived = 0;
+  shipsLost = 0;
+  money = 1000;
 }
 
 void GameModel::update(float time) {
@@ -64,6 +70,7 @@ void GameModel::update(float time) {
 ShipModel *GameModel::launchShip() {
 
   if (ships->data->num >= 3) {
+    CCLOG("Too many ships");
     return NULL;
   }
 
@@ -77,7 +84,19 @@ ShipModel *GameModel::launchShip() {
   ship->setDestinationStation(destinationStation);
   ships->addObject(ship);
 
+  money -= 100;
+
   return ship;
+}
+
+void GameModel::removeShip(ShipModel *ship, bool killed) {
+  ships->removeObject(ship);
+  if (killed) {
+    shipsLost++;
+  } else {
+    shipsArrived++;
+    money += 200;
+  }
 }
 
 void GameModel::beginTouchHole(CCTouch *pTouch) {

@@ -7,6 +7,7 @@
 #include "GameModel.h"
 #include "ShipModel.h"
 #include "ShipSprite.h"
+#include "StationSprite.h"
 #include "PlanetSprite.h"
 #include "SpaceBoundaries.h"
 
@@ -33,7 +34,8 @@ bool ShipSprite::init(ShipModel *p) {
 
   fingerObject = NULL;
   
-  markedToRemove = false;
+  markedToRemoveKilled = false;
+  markedToRemoveArrived = false;
 
   return true;
 }
@@ -69,47 +71,56 @@ void ShipSprite::registerPhysics(b2World *world) {
   setUserData((void *)body);
 }
 
+void ShipSprite::removeFromGame() {
+  unregisterPhysics();
+  CC_SAFE_RELEASE_NULL(model);
+  planetsInVicinity->removeAllObjects();
+  planetsInVicinity->release();
+  fingerObject = NULL;
+}
+
+void ShipSprite::unregisterPhysics() {
+  setUserData(NULL);
+  body->GetWorld()->DestroyBody(body);
+  body = NULL;
+}
+
 void ShipSprite::update(float dt) {
-  if (body) {
-    setPosition(ccp(body->GetPosition().x*PTM_RATIO, body->GetPosition().y*PTM_RATIO));
-    if (body->GetLinearVelocity().Length() > 0.05f) {
-      setRotation(CC_RADIANS_TO_DEGREES(atan2f(body->GetLinearVelocity().y, -body->GetLinearVelocity().x))-90);
-    }
-
-    if (planetsInVicinity->data->num > 0) {
-      b2Vec2 shipCenter(body->GetPosition());
-      body->SetLinearDamping(0.1f);
-
-      CCObject *obj;
-
-      CCARRAY_FOREACH(planetsInVicinity, obj) {
-        PlanetSprite *ps = dynamic_cast<PlanetSprite *>(obj);
-        b2Vec2 planetCenter(ps->getBody()->GetPosition());
-        b2Vec2 towardsVector(planetCenter - shipCenter);
-        towardsVector.Normalize();
-        towardsVector *= ps->getGravity();
-        body->ApplyForceToCenter(towardsVector);
-      }
-    } else {
-      body->SetLinearDamping(0.0f);
-    }
-
-    if (fingerObject) {
-      b2Vec2 touchPosition(fingerObject->getPositionX(), fingerObject->getPositionY());
-      b2Vec2 towardsVector(touchPosition - body->GetPosition());
-      towardsVector.Normalize();
-      towardsVector *= FINGER_GRAVITY;
-      body->ApplyForceToCenter(towardsVector);
-      if (GameModel::sharedGameModel()->getFingerObject()->touchId == SCREEN_NOTOUCH) {
-        fingerObject = NULL;
-      }
-    }
+  if (!body) {
+    return;
+}
+  setPosition(ccp(body->GetPosition().x*PTM_RATIO, body->GetPosition().y*PTM_RATIO));
+  if (body->GetLinearVelocity().Length() > 0.05f) {
+    setRotation(CC_RADIANS_TO_DEGREES(atan2f(body->GetLinearVelocity().y, -body->GetLinearVelocity().x))-90);
   }
 
-  if (markedToRemove) {
-    CCLOG("Remove: true");
+  if (planetsInVicinity->data->num > 0) {
+    b2Vec2 shipCenter(body->GetPosition());
+    body->SetLinearDamping(0.1f);
+
+    CCObject *obj;
+
+    CCARRAY_FOREACH(planetsInVicinity, obj) {
+      PlanetSprite *ps = dynamic_cast<PlanetSprite *>(obj);
+      b2Vec2 planetCenter(ps->getBody()->GetPosition());
+      b2Vec2 towardsVector(planetCenter - shipCenter);
+      towardsVector.Normalize();
+      towardsVector *= ps->getGravity();
+      body->ApplyForceToCenter(towardsVector);
+    }
   } else {
-    CCLOG("Remove: false");
+    body->SetLinearDamping(0.0f);
+  }
+
+  if (fingerObject) {
+    b2Vec2 touchPosition(fingerObject->getPositionX(), fingerObject->getPositionY());
+    b2Vec2 towardsVector(touchPosition - body->GetPosition());
+    towardsVector.Normalize();
+    towardsVector *= FINGER_GRAVITY;
+    body->ApplyForceToCenter(towardsVector);
+    if (GameModel::sharedGameModel()->getFingerObject()->touchId == SCREEN_NOTOUCH) {
+      fingerObject = NULL;
+    }
   }
 }
 
@@ -121,8 +132,13 @@ void ShipSprite::beginContact(TileObject *obj) {
     fingerObject = (FingerObject *)obj;
   }
   if (dynamic_cast<SpaceBoundaries *>(obj)) {
-    CCLOG("Remove this ship");
-    markedToRemove = true;
+    markedToRemoveKilled = true;
+  }
+  if (dynamic_cast<StationSprite *>(obj)) {
+    StationSprite *spr = dynamic_cast<StationSprite *>(obj);
+    if (model->getDestinationStation() == spr->getModel()) {
+      markedToRemoveArrived = true;
+    }
   }
 }
 

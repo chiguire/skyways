@@ -166,6 +166,9 @@
             <filename>Planets/planet-15.png</filename>
             <filename>enemyShip.png</filename>
             <filename>ship.png</filename>
+            <filename>death.png</filename>
+            <filename>coin.png</filename>
+            <filename>handpointer.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

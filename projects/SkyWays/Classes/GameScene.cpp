@@ -37,6 +37,7 @@ bool GameScene::init()
 
   CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
   CCPoint origin = CCDirector::sharedDirector()->getVisibleOrigin();
+  CCPoint middleScreen(visibleSize.width/2.0f, visibleSize.height/2.0f);
 
   CCSprite *background = CCSprite::create("starBackground.png", CCRectMake(0, 0, visibleSize.width, visibleSize.height));
   ccTexParams params = { GL_LINEAR, GL_LINEAR, GL_REPEAT, GL_REPEAT };
@@ -61,7 +62,7 @@ bool GameScene::init()
   debugLayer = Box2DDebugLayer::create();
   addChild(debugLayer);
 
-  CCMenuItemLabel *pPauseItem = CCMenuItemLabel::create(CCLabelBMFont::create("Pause", 
+  CCMenuItemLabel *pPauseItem = CCMenuItemLabel::create(CCLabelBMFont::create("Close", 
     "font-text.fnt"),
     this,
     menu_selector(GameScene::pauseHandler));
@@ -72,6 +73,25 @@ bool GameScene::init()
   CCMenu* pMenu = CCMenu::create(pPauseItem, NULL);
   pMenu->setPosition(CCPointZero);
   this->addChild(pMenu, 1);
+
+  shipStatus = CCLabelBMFont::create("Ships arrived: 0 // Ships lost: 0 // Money: $1000", "font-text.fnt", 1024, kCCTextAlignmentCenter);
+  shipStatus->setPosition(ccp(512.0f, 20.0f));
+  addChild(shipStatus);
+
+  iconAnimation = CCSequence::create(CCSpawn::create(CCEaseOut::create(CCMoveTo::create(3.0f, middleScreen), 2.0f), 
+                                                     CCEaseOut::create(CCFadeOut::create(1.0f), 2.0f), 
+                                                     NULL),
+                                     CCRemoveSelf::create(),
+                                     NULL);
+  iconAnimation->retain();
+
+  handPointerAction = CCSequence::create(CCRepeat::create(CCSequence::create(CCEaseSineInOut::create(CCFadeIn::create(0.5)),
+                                                                             CCEaseSineInOut::create(CCFadeOut::create(0.5f)),
+                                                                             NULL),
+                                                          4),
+                                         CCRemoveSelf::create(),
+                                         NULL);
+  handPointerAction->retain();
 
   setTouchEnabled(true);
   CCDirector::sharedDirector()->getScheduler()->scheduleUpdateForTarget(this, 0, false);
@@ -120,19 +140,48 @@ void GameScene::initGameplayLayer(GameModel *gm) {
   }
 
   boundaries = SpaceBoundaries::create();
+  gameplayLayer->addChild(boundaries);
   boundaries->registerPhysics(gm->pWorld);
 }
 
 void GameScene::update(float dt) {
   gameModel->update(dt);
+  shipStatus->setString(CCString::createWithFormat("Ships arrived: %d // Ships lost: %d // Money: $%d", gameModel->getShipsArrived(), gameModel->getShipsLost(), gameModel->getMoney())->getCString());
   CCObject *obj;
   CCARRAY_FOREACH(stationSprites, obj) {
     StationSprite *ss = dynamic_cast<StationSprite *>(obj);
     ss->update(dt);
   }
-  CCARRAY_FOREACH(shipSprites, obj) {
+  CCARRAY_FOREACH_REVERSE(shipSprites, obj) {
     ShipSprite *ss = dynamic_cast<ShipSprite *>(obj);
     ss->update(dt);
+    if (ss->getMarkedToRemoveKilled()) {
+      ShipModel *sModel = ss->getModel();
+      CCPoint shipPosition(ss->getPosition());
+      ss->removeFromGame();
+      shipSprites->removeObject(ss);
+      ss->removeFromParent();
+
+      CCSprite *deathSprite = CCSprite::createWithSpriteFrameName("death.png");
+      gameplayLayer->addChild(deathSprite);
+      deathSprite->setPosition(shipPosition);
+      deathSprite->runAction(iconAnimation);
+      
+      gameModel->removeShip(sModel, true);
+    } else if (ss->getMarkedToRemoveArrived()) {
+      ShipModel *sModel = ss->getModel();
+      CCPoint shipPosition(ss->getPosition());
+      ss->removeFromGame();
+      shipSprites->removeObject(ss);
+      ss->removeFromParent();
+
+      CCSprite *coinSprite = CCSprite::createWithSpriteFrameName("coin.png");
+      gameplayLayer->addChild(coinSprite);
+      coinSprite->setPosition(shipPosition);
+      coinSprite->runAction(iconAnimation);
+
+      gameModel->removeShip(sModel, false);
+    }
   }
 }
 
@@ -151,6 +200,15 @@ void GameScene::launchShipHandler(float dt) {
     towardsVector.Normalize();
     towardsVector *= 0.5f;
     shipSprite->getBody()->ApplyLinearImpulse(towardsVector, b2Vec2_zero);
+
+    CCPoint destinationStationPosition(shipModel->getDestinationStation()->getSprite()->getPosition());
+    destinationStationPosition.x -= 30;
+    CCSprite *handPointer = CCSprite::createWithSpriteFrameName("handpointer.png");
+    gameplayLayer->addChild(handPointer);
+    handPointer->setScale(3.0f);
+    handPointer->setOpacity(0);
+    handPointer->setPosition(destinationStationPosition);
+    handPointer->runAction(handPointerAction);
   }
 }
 

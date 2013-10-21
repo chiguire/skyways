@@ -47,6 +47,8 @@ public:
   void moveTouchHole(CCTouch *pTouch);
   void endTouchHole(CCTouch *pTouch);
 
+  void removeShip(ShipModel *ship, bool killed);
+
   b2Body *groundBody;
   b2World *pWorld;
   CCArray *planets;
@@ -60,6 +62,9 @@ public:
   bool ReportFixture(b2Fixture *fixture);
 
   CC_SYNTHESIZE(FingerObject *, fingerObject, FingerObject);
+  CC_SYNTHESIZE(int, shipsArrived, ShipsArrived);
+  CC_SYNTHESIZE(int, shipsLost, ShipsLost);
+  CC_SYNTHESIZE(int, money, Money);
 };
 
 #endif /* GAMEMODEL_H_ */
