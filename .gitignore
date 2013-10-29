@@ -1,3 +1,6 @@
+#Ignore custom stuff
+workspace.blackberry
+
 # Ignore thumbnails created by windows
 Thumbs.db
 

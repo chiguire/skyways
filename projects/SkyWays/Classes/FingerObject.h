@@ -21,6 +21,8 @@ public:
   bool init();
   static FingerObject *create();
 
+  virtual void draw();
+
   int touchId;
 
 };

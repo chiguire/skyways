@@ -32,3 +32,7 @@ FingerObject *FingerObject::create() {
     return NULL;
   }
 }
+
+void FingerObject::draw() {
+  
+}
