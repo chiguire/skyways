@@ -102,15 +102,15 @@ void GameModel::removeShip(ShipModel *ship, bool killed) {
 void GameModel::beginTouchHole(CCTouch *pTouch) {
   if (fingerObject->touchId == SCREEN_NOTOUCH) {
     fingerObject->touchId = pTouch->getID();
-    fingerObject->setPosition(ccp(pTouch->getLocation().x/PTM_RATIO, pTouch->getLocation().y/PTM_RATIO));
+    fingerObject->setPosition(ccp(pTouch->getLocation().x, pTouch->getLocation().y));
     createTouchHole(pTouch);
   }
 }
 
 void GameModel::moveTouchHole(CCTouch *pTouch) {
   if (fingerObject->touchId != SCREEN_NOTOUCH) {
-    fingerObject->setPosition(ccp(pTouch->getLocation().x/PTM_RATIO, pTouch->getLocation().y/PTM_RATIO));
-    fingerObject->getBody()->SetTransform(b2Vec2(fingerObject->getPositionX(), fingerObject->getPositionY()), 0);
+    fingerObject->setPosition(ccp(pTouch->getLocation().x, pTouch->getLocation().y));
+    fingerObject->getBody()->SetTransform(b2Vec2(fingerObject->getPositionX()/PTM_RATIO, fingerObject->getPositionY()/PTM_RATIO), 0);
   }
 }
 
@@ -118,6 +118,7 @@ void GameModel::endTouchHole(CCTouch *pTouch) {
   if (fingerObject->touchId != SCREEN_NOTOUCH) {
     fingerObject->touchId = SCREEN_NOTOUCH;
     destroyTouchHole(pTouch);
+    fingerObject->removeFromParent();
   }
 }
 
@@ -125,7 +126,7 @@ void GameModel::createTouchHole(CCTouch *touch) {
   b2BodyDef bodyDef;
   bodyDef.type = b2_dynamicBody;
 
-  bodyDef.position.Set(fingerObject->getPositionX(), fingerObject->getPositionY());
+  bodyDef.position.Set(fingerObject->getPositionX()/PTM_RATIO, fingerObject->getPositionY()/PTM_RATIO);
   bodyDef.allowSleep = false;
 
   b2Body *fingerBody = pWorld->CreateBody(&bodyDef);

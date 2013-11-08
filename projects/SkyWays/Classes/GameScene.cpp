@@ -59,8 +59,8 @@ bool GameScene::init()
   initGameplayLayer(gameModel);
   addChild(gameplayLayer);
 
-  debugLayer = Box2DDebugLayer::create();
-  addChild(debugLayer);
+  //debugLayer = Box2DDebugLayer::create();
+  //addChild(debugLayer);
 
   CCMenuItemLabel *pPauseItem = CCMenuItemLabel::create(CCLabelBMFont::create("Close", 
     "font-text.fnt"),
@@ -226,6 +226,7 @@ void GameScene::pauseHandler(CCObject* pSender)
 
 bool GameScene::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent) {
   gameModel->beginTouchHole(pTouch);
+  addChild(gameModel->getFingerObject());
   return true;
 }
 
@@ -235,6 +236,7 @@ void GameScene::ccTouchMoved(CCTouch *pTouch, CCEvent *pEvent) {
 
 void GameScene::ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent) {
   gameModel->endTouchHole(pTouch);
+  removeChild(gameModel->getFingerObject());
 }
 
 void GameScene::ccTouchCancelled(CCTouch *pTouch, CCEvent *pEvent){ 

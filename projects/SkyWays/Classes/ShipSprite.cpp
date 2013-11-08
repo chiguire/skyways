@@ -112,8 +112,8 @@ void ShipSprite::update(float dt) {
     body->SetLinearDamping(0.0f);
   }
 
-  if (fingerObject) {
-    b2Vec2 touchPosition(fingerObject->getPositionX(), fingerObject->getPositionY());
+  if (fingerObject && fingerObject->getBody()) {
+    b2Vec2 touchPosition(fingerObject->getBody()->GetPosition());
     b2Vec2 towardsVector(touchPosition - body->GetPosition());
     towardsVector.Normalize();
     towardsVector *= FINGER_GRAVITY;

@@ -19,6 +19,9 @@
     <Filter Include="Classes\Layers">
       <UniqueIdentifier>{e295a1fb-d618-4fa3-b4ba-bae2a76db08e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Classes\Shaders">
+      <UniqueIdentifier>{9996d9a3-b72b-45cb-a476-f20d1b9a1e62}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -118,6 +121,9 @@
     </ClInclude>
     <ClInclude Include="..\Classes\SpaceBoundaries.h">
       <Filter>Classes\Sprites</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\ccShader_GravityField_frag.h">
+      <Filter>Classes\Shaders</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
