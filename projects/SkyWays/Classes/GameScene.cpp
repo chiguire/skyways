@@ -2,6 +2,7 @@
 #include "PlanetSprite.h"
 #include "ShipSprite.h"
 #include "StationSprite.h"
+#include "SimpleAudioEngine.h"
 
 USING_NS_CC;
 
@@ -134,6 +135,8 @@ bool GameScene::init()
                                           NULL);
   shipDeathAnimation->retain();
 
+  CocosDenshion::SimpleAudioEngine::sharedEngine()->playBackgroundMusic("background.wav");
+  
   setTouchEnabled(true);
   CCDirector::sharedDirector()->getScheduler()->scheduleUpdateForTarget(this, 0, false);
   CCDirector::sharedDirector()->getScheduler()->scheduleSelector(schedule_selector(GameScene::launchShipHandler), this, 6.0f, false);
