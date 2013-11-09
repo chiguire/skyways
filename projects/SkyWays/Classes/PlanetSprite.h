@@ -33,6 +33,7 @@ public:
   static PlanetSprite *create(PlanetModel *h);
   void registerPhysics(b2World *world);
   float getGravity();
+  void update();
 
   CC_SYNTHESIZE(int,spriteFrameNumber,SpriteFrameNumber);
 

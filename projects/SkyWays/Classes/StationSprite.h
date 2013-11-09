@@ -21,6 +21,11 @@ protected:
   b2Fixture *bodyFixture;
 
   CCSprite *leStation;
+  CCSprite *stationDoorBackground;
+  CCSprite *stationDoor;
+
+  CCAnimate *doorsOpenAction;
+
 public:
   StationSprite();
   virtual ~StationSprite();
@@ -31,6 +36,7 @@ public:
 
   virtual void update(float dt);
   virtual void applyForces();
+  void playOpenDoorAnimation();
 
   CC_SYNTHESIZE(int,spriteFrameNumber,SpriteFrameNumber);
   CC_SYNTHESIZE(StationModel *, model, Model);

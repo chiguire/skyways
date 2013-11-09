@@ -7,8 +7,36 @@ LOCAL_MODULE := cocos2dcpp_shared
 LOCAL_MODULE_FILENAME := libcocos2dcpp
 
 LOCAL_SRC_FILES := hellocpp/main.cpp \
-                   ../../Classes/AppDelegate.cpp \
-                   ../../Classes/HelloWorldScene.cpp
+../../Classes/AppDelegate.cpp \
+../../Classes/AppDelegate.h \
+../../Classes/Box2DDebugLayer.cpp \
+../../Classes/Box2DDebugLayer.h \
+../../Classes/Common.h \
+../../Classes/DictUtils.h \
+../../Classes/FingerObject.cpp \
+../../Classes/FingerObject.h \
+../../Classes/GLES-Render.cpp \
+../../Classes/GLES-Render.h \
+../../Classes/GameModel.cpp \
+../../Classes/GameModel.h \
+../../Classes/GameScene.cpp \
+../../Classes/GameScene.h \
+../../Classes/PlanetModel.cpp \
+../../Classes/PlanetModel.h \
+../../Classes/PlanetSprite.cpp \
+../../Classes/PlanetSprite.h \
+../../Classes/ShipModel.cpp \
+../../Classes/ShipModel.h \
+../../Classes/ShipSprite.cpp \
+../../Classes/ShipSprite.h \
+../../Classes/SpaceBoundaries.cpp \
+../../Classes/SpaceBoundaries.h \
+../../Classes/StationModel.cpp \
+../../Classes/StationModel.h \
+../../Classes/StationSprite.cpp \
+../../Classes/StationSprite.h \
+../../Classes/TileObject.cpp \
+../../Classes/TileObject.h
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../Classes
 

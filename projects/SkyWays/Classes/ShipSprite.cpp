@@ -140,7 +140,11 @@ void ShipSprite::beginContact(TileObject *obj) {
     StationSprite *spr = dynamic_cast<StationSprite *>(obj);
     if (model->getDestinationStation() == spr->getModel()) {
       markedToRemoveArrived = true;
+      spr->playOpenDoorAnimation();
     }
+  }
+  if (dynamic_cast<ShipSprite *>(obj)) {
+    markedToRemoveKilled = true;
   }
 }
 

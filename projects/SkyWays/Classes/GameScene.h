@@ -23,6 +23,11 @@ class GameScene : public cocos2d::CCLayer
 
   CCAction *iconAnimation;
   CCAction *handPointerAction;
+  CCAction *explosionAnimation;
+  CCAction *shipDeathAnimation;
+
+  CCLayerColor *gameOverLayer;
+  CCSprite *gameOverTitle;
 
 public:
   // Here's a difference. Method 'init' in cocos2d-x returns bool, instead of returning 'id' in cocos2d-iphone
@@ -35,6 +40,7 @@ public:
 
   void update(float dt);
   void launchShipHandler(float dt);
+  void resetGameHandler();
 
   virtual void registerWithTouchDispatcher();
   virtual bool ccTouchBegan(CCTouch* touch, CCEvent* event);
@@ -42,8 +48,11 @@ public:
   virtual void ccTouchEnded(CCTouch* touch, CCEvent* event);
   virtual void ccTouchCancelled(CCTouch *touch, CCEvent* event);
 
+  virtual void onExit();
+
   // a selector callback
   void pauseHandler(CCObject* pSender);
+  void debugHandler(CCObject *pSender);
 
   // implement the "static node()" method manually
   CREATE_FUNC(GameScene);

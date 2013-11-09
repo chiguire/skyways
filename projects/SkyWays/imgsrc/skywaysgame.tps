@@ -169,6 +169,12 @@
             <filename>death.png</filename>
             <filename>coin.png</filename>
             <filename>handpointer.png</filename>
+            <filename>explosion</filename>
+            <filename>d</filename>
+            <filename>ship-damaged.png</filename>
+            <filename>gameover.gif</filename>
+            <filename>scrollbar-tip.png</filename>
+            <filename>scrollbar.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

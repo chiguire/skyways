@@ -65,6 +65,7 @@ public:
   CC_SYNTHESIZE(int, shipsArrived, ShipsArrived);
   CC_SYNTHESIZE(int, shipsLost, ShipsLost);
   CC_SYNTHESIZE(int, money, Money);
+  CC_SYNTHESIZE(bool, gameOver, GameOver);
 };
 
 #endif /* GAMEMODEL_H_ */

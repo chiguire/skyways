@@ -59,20 +59,29 @@ void GameModel::reset() {
   shipsArrived = 0;
   shipsLost = 0;
   money = 1000;
+  gameOver = false;
 }
 
 void GameModel::update(float time) {
+  if (gameOver) return;
+
   pWorld->Step(time, 8, 3);
+
+  if (money < 100) {
+     if (ships->data->num == 0) {
+       gameOver = true;
+     }
+  }
 }
 
 ShipModel *GameModel::launchShip() {
-
-  if (money < 100) {
-    //set game over
-  }
-
   if (ships->data->num >= 6) {
     CCLOG("Too many ships");
+    return NULL;
+  }
+  
+  if (money < 100) {
+    CCLOG("No money left to launch");
     return NULL;
   }
 

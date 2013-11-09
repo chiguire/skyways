@@ -74,7 +74,7 @@ void PlanetSprite::registerPhysics(b2World *world) {
 
   bodyDef.position.Set(model->getPosition().x/PTM_RATIO, model->getPosition().y/PTM_RATIO);
   bodyDef.userData = this;
-  bodyDef.fixedRotation = true;
+  bodyDef.fixedRotation = false;
   body = world->CreateBody(&bodyDef);
 
   b2CircleShape shape;
@@ -93,4 +93,10 @@ void PlanetSprite::registerPhysics(b2World *world) {
 
 float PlanetSprite::getGravity() {
   return model->getGravity();
+}
+
+void PlanetSprite::update() {
+  if (body) {
+    setPosition(ccp(body->GetPosition().x*PTM_RATIO, body->GetPosition().y*PTM_RATIO));
+  }
 }
