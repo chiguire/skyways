@@ -305,6 +305,8 @@ void GameScene::update(float dt) {
         coinSprite->runAction(((CCAction *)((CCAction *)iconAnimation->copy())->autorelease()));
 
         gameModel->removeShip(sModel, false);
+
+        CocosDenshion::SimpleAudioEngine::sharedEngine()->playBackgroundMusic("shipcollected.wav");
       }
     }
   }
@@ -334,6 +336,8 @@ void GameScene::launchShipHandler(float dt) {
     handPointer->setOpacity(0);
     handPointer->setPosition(destinationStationPosition);
     handPointer->runAction(((CCAction *)((CCAction *)handPointerAction->copy())->autorelease()));
+
+    CocosDenshion::SimpleAudioEngine::sharedEngine()->playBackgroundMusic("shipejected.wav");
   }
 }
 

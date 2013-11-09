@@ -10,6 +10,7 @@
 #include "StationSprite.h"
 #include "PlanetSprite.h"
 #include "SpaceBoundaries.h"
+#include "SimpleAudioEngine.h"
 
 ShipSprite::ShipSprite()
   : model(NULL)
@@ -135,6 +136,7 @@ void ShipSprite::beginContact(TileObject *obj) {
   }
   if (dynamic_cast<SpaceBoundaries *>(obj)) {
     markedToRemoveKilled = true;
+    CocosDenshion::SimpleAudioEngine::sharedEngine()->playBackgroundMusic("shiplost.wav");
   }
   if (dynamic_cast<StationSprite *>(obj)) {
     StationSprite *spr = dynamic_cast<StationSprite *>(obj);
@@ -145,6 +147,7 @@ void ShipSprite::beginContact(TileObject *obj) {
   }
   if (dynamic_cast<ShipSprite *>(obj)) {
     markedToRemoveKilled = true;
+    CocosDenshion::SimpleAudioEngine::sharedEngine()->playBackgroundMusic("shipexplosion.wav");
   }
 }
 
