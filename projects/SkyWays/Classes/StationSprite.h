@@ -20,6 +20,7 @@ class StationSprite: public TileObject {
 protected:
   b2Fixture *bodyFixture;
 
+  CCSprite *leStation;
 public:
   StationSprite();
   virtual ~StationSprite();

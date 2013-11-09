@@ -29,9 +29,9 @@ protected:
 
   PlanetModel *createPlanet(CCPoint position, float gravity, float planetRadius, float gravityFieldRadius, bool isBlackhole, char *spriteFrameName);
 
-  StationModel *createStation(CCPoint position, char *spriteFrameName);
+  StationModel *createStation(CCPoint position, char *spriteFrameName, const ccColor3B &color);
 
-  ShipModel *createShip(CCPoint position, char*spriteFrameName);
+  ShipModel *createShip(CCPoint position, char *spriteFrameName, const ccColor3B &color);
 
   void createTouchHole(CCTouch *touch);
   void destroyTouchHole(CCTouch *touch);

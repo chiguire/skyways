@@ -22,6 +22,9 @@ protected:
   b2Fixture *gravityField;
   b2Fixture *bodyFixture;
 
+  CCDrawNode *gravityFieldSprite;
+  CCSprite *planet;
+
 public:
   PlanetSprite();
   virtual ~PlanetSprite();

@@ -19,12 +19,37 @@ PlanetSprite::~PlanetSprite() {
 }
 
 bool PlanetSprite::init(PlanetModel *p) {
+  CCSprite::init();
+
   model = p;
   model->retain();
-  this->initWithSpriteFrameName(p->getSpriteFrameName()->getCString());
-  setAnchorPoint(ccp(0.5f, 0.5f));
+
   setPosition(p->getPosition());
-  setScale(model->getPlanetRadius()*0.38f);
+
+  gravityFieldSprite = CCDrawNode::create();
+  const int SEGMENTS = 180;
+  float radius = model->getGravityFieldRadius()*PTM_RATIO;
+  ccColor4F colorBorder = { 0.7f, 0.7f, 1.0f, 0.3f };
+  ccColor4F colorBackground = { 0.7f, 0.7f, 1.0f, 0.1f };
+  float previousAngle = 0;
+  CCPoint pVertices[SEGMENTS];
+  for (int i = 0; i != SEGMENTS; i++) {
+    float angle = (float(i+1)/float(SEGMENTS))*(2.0f*M_PI);
+    CCPoint vertices[2] = {CCPoint(radius * cos(previousAngle), radius * sin(previousAngle)),
+                           CCPoint(radius * cos(angle), radius * sin(angle))};
+    gravityFieldSprite->drawSegment(vertices[0], vertices[1], 1.0f, colorBorder);
+    pVertices[i] = vertices[0];
+    previousAngle = angle;
+  }
+  gravityFieldSprite->drawDot(CCPointZero, 5.0f, colorBorder);
+  gravityFieldSprite->drawPolygon(pVertices, SEGMENTS, colorBackground, 0.0f, colorBorder);
+
+  addChild(gravityFieldSprite);
+
+  planet = CCSprite::createWithSpriteFrameName(p->getSpriteFrameName()->getCString());
+  planet->setAnchorPoint(ccp(0.5f, 0.5f));
+  planet->setScale(model->getPlanetRadius()*0.38f);
+  addChild(planet);
 
   return true;
 }

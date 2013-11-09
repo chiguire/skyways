@@ -25,6 +25,12 @@ bool StationModel::init(CCDictionary *root) {
   spriteFrameName = getStringForCCDictionary(root, PLANETMODEL_SPRITEFRAMENAME, "enemyShip.png");
   spriteFrameName->retain();
 
+  CCArray *cArray = getArrayForCCDictionary(root, STATIONMODEL_COLOR);
+
+  color.r = static_cast<CCFloat *>(cArray->objectAtIndex(0))->getValue();
+  color.g = static_cast<CCFloat *>(cArray->objectAtIndex(1))->getValue();
+  color.b = static_cast<CCFloat *>(cArray->objectAtIndex(2))->getValue();
+
   return true;
 }
 

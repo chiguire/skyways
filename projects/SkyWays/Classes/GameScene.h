@@ -13,6 +13,7 @@ class GameScene : public cocos2d::CCLayer
   CCLayer *gameplayLayer;
   Box2DDebugLayer *debugLayer;
   CCLabelBMFont *shipStatus;
+  CCDrawNode *pathDisplayLayer;
 
   CCArray *planetSprites;
   CCArray *stationSprites;

@@ -14,6 +14,8 @@
 #define FINGER_RADIUS (3.0f)
 
 class FingerObject : public TileObject {
+  CCDrawNode *gravityField;
+
 public:
   FingerObject();
   virtual ~FingerObject();

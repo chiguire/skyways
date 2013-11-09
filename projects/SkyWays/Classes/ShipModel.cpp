@@ -24,6 +24,12 @@ bool ShipModel::init(CCDictionary *root) {
   position.y = getFloatForCCDictionary(root, PLANETMODEL_POSITION_Y, 0.0f);
   spriteFrameName = getStringForCCDictionary(root, PLANETMODEL_SPRITEFRAMENAME, "ship.png");
   spriteFrameName->retain();
+  
+  CCArray *cArray = getArrayForCCDictionary(root, STATIONMODEL_COLOR);
+
+  color.r = static_cast<CCFloat *>(cArray->objectAtIndex(0))->getValue();
+  color.g = static_cast<CCFloat *>(cArray->objectAtIndex(1))->getValue();
+  color.b = static_cast<CCFloat *>(cArray->objectAtIndex(2))->getValue();
 
   return true;
 }

@@ -23,11 +23,14 @@ ShipSprite::~ShipSprite() {
 }
 
 bool ShipSprite::init(ShipModel *p) {
+  CCSprite::init();
   model = p;
   model->retain();
-  this->initWithSpriteFrameName(p->getSpriteFrameName()->getCString());
-  setAnchorPoint(ccp(0.5f, 0.5f));
+  leShip = CCSprite::createWithSpriteFrameName(p->getSpriteFrameName()->getCString());
+  leShip->setAnchorPoint(ccp(0.5f, 0.5f));
   setPosition(p->getPosition());
+  leShip->setColor(model->getColor());
+  addChild(leShip);
 
   planetsInVicinity = CCArray::create();
   planetsInVicinity->retain();
@@ -112,15 +115,14 @@ void ShipSprite::update(float dt) {
     body->SetLinearDamping(0.0f);
   }
 
-  if (fingerObject && fingerObject->getBody()) {
+  if (fingerObject && fingerObject->touchId != SCREEN_NOTOUCH) {
     b2Vec2 touchPosition(fingerObject->getBody()->GetPosition());
     b2Vec2 towardsVector(touchPosition - body->GetPosition());
     towardsVector.Normalize();
     towardsVector *= FINGER_GRAVITY;
     body->ApplyForceToCenter(towardsVector);
-    if (GameModel::sharedGameModel()->getFingerObject()->touchId == SCREEN_NOTOUCH) {
-      fingerObject = NULL;
-    }
+  } else {
+    fingerObject = NULL;
   }
 }
 
@@ -149,4 +151,8 @@ void ShipSprite::endContact(TileObject *obj) {
   if (dynamic_cast<FingerObject *>(obj)) {
     fingerObject = NULL;
   }
+}
+
+bool ShipSprite::draggedByFinger() {
+  return fingerObject;
 }

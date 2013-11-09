@@ -26,8 +26,8 @@ public:
   CC_SYNTHESIZE(CCPoint, position, Position);
   CC_SYNTHESIZE(CCString *, spriteFrameName, SpriteFrameName);
   CC_SYNTHESIZE(StationModel *, destinationStation, DestinationStation);
-
   CC_SYNTHESIZE(ShipSprite *, sprite, Sprite);
+  CC_SYNTHESIZE(ccColor3B, color, Color);
 };
 
 #endif /* SHIPMODEL_H_ */

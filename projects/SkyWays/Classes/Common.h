@@ -19,5 +19,6 @@
 #define PLANETMODEL_GRAVITY_FIELD_RADIUS "gravityFieldRadius"
 #define PLANETMODEL_BLACKHOLE "isBlackHole"
 #define PLANETMODEL_SPRITEFRAMENAME "spriteFrameName"
+#define STATIONMODEL_COLOR "color"
 
 #endif

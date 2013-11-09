@@ -25,6 +25,8 @@ protected:
 
   void unregisterPhysics();
 
+  CCSprite *leShip;
+
 public:
   ShipSprite();
   virtual ~ShipSprite();
@@ -38,6 +40,8 @@ public:
 
   virtual void beginContact(TileObject *o);
   virtual void endContact(TileObject *o);
+
+  bool draggedByFinger();
 
   CC_SYNTHESIZE(int,spriteFrameNumber,SpriteFrameNumber);
   CC_SYNTHESIZE(bool,markedToRemoveKilled,MarkedToRemoveKilled);

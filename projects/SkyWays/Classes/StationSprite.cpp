@@ -20,12 +20,14 @@ StationSprite::~StationSprite() {
 }
 
 bool StationSprite::init(StationModel *p) {
+  CCSprite::init();
   model = p;
   model->retain();
-  this->initWithSpriteFrameName(p->getSpriteFrameName()->getCString());
-  setAnchorPoint(ccp(0.5f, 0.5f));
   setPosition(p->getPosition());
-
+  leStation = CCSprite::createWithSpriteFrameName(p->getSpriteFrameName()->getCString());
+  leStation->setAnchorPoint(ccp(0.5f, 0.5f));
+  leStation->setColor(model->getColor());
+  addChild(leStation);
   return true;
 }
 

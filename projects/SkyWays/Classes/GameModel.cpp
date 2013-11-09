@@ -47,14 +47,12 @@ void GameModel::reset() {
   stations = CCArray::create();
   stations->retain();
 
-  stations->addObject(createStation(ccp(200.0f, 540.0f), "enemyShip.png"));
-  stations->addObject(createStation(ccp(700.0f, 60.0f), "enemyShip.png"));
-  stations->addObject(createStation(ccp(900.0f, 300.0f), "enemyShip.png"));
+  stations->addObject(createStation(ccp(200.0f, 540.0f), "enemyShip.png", ccBLUE));
+  stations->addObject(createStation(ccp(700.0f, 60.0f), "enemyShip.png", ccYELLOW));
+  stations->addObject(createStation(ccp(900.0f, 300.0f), "enemyShip.png", ccGREEN));
 
   ships = CCArray::create();
   ships->retain();
-
-  //ships->addObject(createShip(ccp(500.0f, 100.0f), "ship.png"));
 
   fingerObject->touchId = SCREEN_NOTOUCH;
 
@@ -69,18 +67,50 @@ void GameModel::update(float time) {
 
 ShipModel *GameModel::launchShip() {
 
-  if (ships->data->num >= 3) {
+  if (money < 100) {
+    //set game over
+  }
+
+  if (ships->data->num >= 6) {
     CCLOG("Too many ships");
     return NULL;
   }
 
-  StationModel *sourceStation = static_cast<StationModel *>(stations->randomObject());
-  StationModel *destinationStation;
-  do {
-    destinationStation = static_cast<StationModel *>(stations->randomObject()); 
-  } while (destinationStation == sourceStation);
+  ccColor3B chosenColor;
+  
+  float p = CCRANDOM_0_1();
+  
+  if (p < 1.0f/3.0f) {
+    chosenColor = ccBLUE;
+  } else if (p < 2.0f/3.0f) {
+    chosenColor = ccYELLOW;
+  } else {
+    chosenColor = ccGREEN;
+  }
 
-  ShipModel *ship = createShip(sourceStation->getPosition(), "ship.png");
+  StationModel *sourceStation;
+  ccColor3B sourceColor;
+  while (true) {
+    sourceStation = static_cast<StationModel *>(stations->randomObject());
+    sourceColor = sourceStation->getColor();
+    if (sourceColor.r != chosenColor.r ||
+        sourceColor.g != chosenColor.g ||
+        sourceColor.b != chosenColor.b) break;
+  }
+  
+
+  StationModel *destinationStation;
+  ccColor3B destinationColor;
+  while (true) {
+    destinationStation = static_cast<StationModel *>(stations->randomObject()); 
+    destinationColor = destinationStation->getColor();
+    if (destinationStation != sourceStation &&
+        destinationColor.r == chosenColor.r &&
+        destinationColor.g == chosenColor.g &&
+        destinationColor.b == chosenColor.b) break;
+  }
+  
+  ShipModel *ship = createShip(sourceStation->getPosition(), "ship.png", chosenColor);
   ship->setDestinationStation(destinationStation);
   ships->addObject(ship);
 
@@ -190,18 +220,30 @@ PlanetModel *GameModel::createPlanet(CCPoint position, float gravity, float plan
   return PlanetModel::create(planetDict);
 }
 
-StationModel *GameModel::createStation(CCPoint position, char *spriteFrameName) {
+StationModel *GameModel::createStation(CCPoint position, char *spriteFrameName, const ccColor3B &color) {
   CCDictionary *stationDict = CCDictionary::create();
   stationDict->setObject(CCString::createWithFormat("%f", position.x), std::string(PLANETMODEL_POSITION_X));
   stationDict->setObject(CCString::createWithFormat("%f", position.y), std::string(PLANETMODEL_POSITION_Y));
   stationDict->setObject(CCString::create(spriteFrameName), std::string(PLANETMODEL_SPRITEFRAMENAME));
+
+  CCArray *colorArray = CCArray::create();
+  colorArray->addObject(CCFloat::create(color.r));
+  colorArray->addObject(CCFloat::create(color.g));
+  colorArray->addObject(CCFloat::create(color.b));
+  stationDict->setObject(colorArray, STATIONMODEL_COLOR);
   return StationModel::create(stationDict);
 }
 
-ShipModel *GameModel::createShip(CCPoint position, char *spriteFrameName) {
+ShipModel *GameModel::createShip(CCPoint position, char *spriteFrameName, const ccColor3B &color) {
   CCDictionary *shipDict = CCDictionary::create();
   shipDict->setObject(CCString::createWithFormat("%f", position.x), std::string(PLANETMODEL_POSITION_X));
   shipDict->setObject(CCString::createWithFormat("%f", position.y), std::string(PLANETMODEL_POSITION_Y));
   shipDict->setObject(CCString::create(spriteFrameName), std::string(PLANETMODEL_SPRITEFRAMENAME));
+
+  CCArray *colorArray = CCArray::create();
+  colorArray->addObject(CCFloat::create(color.r));
+  colorArray->addObject(CCFloat::create(color.g));
+  colorArray->addObject(CCFloat::create(color.b));
+  shipDict->setObject(colorArray, STATIONMODEL_COLOR);
   return ShipModel::create(shipDict);
 }

@@ -26,6 +26,7 @@ public:
   CC_SYNTHESIZE(CCString *, spriteFrameName, SpriteFrameName);
 
   CC_SYNTHESIZE(StationSprite *, sprite, Sprite);
+  CC_SYNTHESIZE(ccColor3B, color, Color);
 };
 
 #endif /* STATIONMODEL_H_ */

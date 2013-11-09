@@ -62,6 +62,9 @@ bool GameScene::init()
   //debugLayer = Box2DDebugLayer::create();
   //addChild(debugLayer);
 
+  pathDisplayLayer = CCDrawNode::create();
+  addChild(pathDisplayLayer);
+
   CCMenuItemLabel *pPauseItem = CCMenuItemLabel::create(CCLabelBMFont::create("Close", 
     "font-text.fnt"),
     this,
@@ -152,9 +155,17 @@ void GameScene::update(float dt) {
     StationSprite *ss = dynamic_cast<StationSprite *>(obj);
     ss->update(dt);
   }
+  pathDisplayLayer->clear();
   CCARRAY_FOREACH_REVERSE(shipSprites, obj) {
     ShipSprite *ss = dynamic_cast<ShipSprite *>(obj);
     ss->update(dt);
+
+    if (ss->draggedByFinger()) {
+      ccColor4F c = { 0.6f, 0.0f, 0.0f, 0.25f };
+      //CCPoint ctr1 = CCPoint(ss->getPosition()) + CCPoint(ss->getBody()->GetLinearVelocity().x, ss->getBody()->GetLinearVelocity().y)*PTM_RATIO;
+      //CCPoint ctr2 = CCPoint(ss->getPosition() - ss->getModel()->getDestinationStation()->getSprite()->getPosition()).normalize()*PTM_RATIO;
+      pathDisplayLayer->drawSegment(ss->getPosition(), ss->getModel()->getDestinationStation()->getSprite()->getPosition(), 3.0f, c);
+    }
     if (ss->getMarkedToRemoveKilled()) {
       ShipModel *sModel = ss->getModel();
       CCPoint shipPosition(ss->getPosition());
