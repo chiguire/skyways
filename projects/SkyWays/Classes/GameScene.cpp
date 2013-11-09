@@ -135,7 +135,7 @@ bool GameScene::init()
                                           NULL);
   shipDeathAnimation->retain();
 
-  CocosDenshion::SimpleAudioEngine::sharedEngine()->playBackgroundMusic("background.wav");
+  CocosDenshion::SimpleAudioEngine::sharedEngine()->playBackgroundMusic("background.wav", true);
   
   setTouchEnabled(true);
   CCDirector::sharedDirector()->getScheduler()->scheduleUpdateForTarget(this, 0, false);
@@ -306,7 +306,7 @@ void GameScene::update(float dt) {
 
         gameModel->removeShip(sModel, false);
 
-        CocosDenshion::SimpleAudioEngine::sharedEngine()->playBackgroundMusic("shipcollected.wav");
+        CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect("shipcollected.wav");
       }
     }
   }
@@ -337,7 +337,7 @@ void GameScene::launchShipHandler(float dt) {
     handPointer->setPosition(destinationStationPosition);
     handPointer->runAction(((CCAction *)((CCAction *)handPointerAction->copy())->autorelease()));
 
-    CocosDenshion::SimpleAudioEngine::sharedEngine()->playBackgroundMusic("shipejected.wav");
+    CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect("shipejected.wav");
   }
 }
 
