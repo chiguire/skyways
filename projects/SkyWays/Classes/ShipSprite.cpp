@@ -136,7 +136,7 @@ void ShipSprite::beginContact(TileObject *obj) {
   }
   if (dynamic_cast<SpaceBoundaries *>(obj)) {
     markedToRemoveKilled = true;
-    CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect("shiplost.wav");
+    CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect("snd/shiplost.wav");
   }
   if (dynamic_cast<StationSprite *>(obj)) {
     StationSprite *spr = dynamic_cast<StationSprite *>(obj);
@@ -147,7 +147,7 @@ void ShipSprite::beginContact(TileObject *obj) {
   }
   if (dynamic_cast<ShipSprite *>(obj)) {
     markedToRemoveKilled = true;
-    CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect("shipexplosion.wav");
+    CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect("snd/shipexplosion.wav");
   }
 }
 

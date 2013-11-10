@@ -1,5 +1,6 @@
 #include "AppDelegate.h"
 #include "GameScene.h"
+#include "SimpleAudioEngine.h"
 
 USING_NS_CC;
 
@@ -29,6 +30,13 @@ bool AppDelegate::applicationDidFinishLaunching() {
   // create a scene. it's an autorelease object
   CCScene *pScene = GameScene::scene();
 
+  CocosDenshion::SimpleAudioEngine::sharedEngine()->preloadBackgroundMusic("background.wav");
+  CocosDenshion::SimpleAudioEngine::sharedEngine()->preloadEffect("snd/planethit.wav");
+  CocosDenshion::SimpleAudioEngine::sharedEngine()->preloadEffect("snd/shipcollected.wav");
+  CocosDenshion::SimpleAudioEngine::sharedEngine()->preloadEffect("snd/shipejected.wav");
+  CocosDenshion::SimpleAudioEngine::sharedEngine()->preloadEffect("snd/shipexplosion.wav");
+  CocosDenshion::SimpleAudioEngine::sharedEngine()->preloadEffect("snd/shiplost.wav");
+  CocosDenshion::SimpleAudioEngine::sharedEngine()->setEffectsVolume(1.0f);
   // run
   pDirector->runWithScene(pScene);
 
