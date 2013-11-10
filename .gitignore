@@ -1,5 +1,7 @@
 #Ignore custom stuff
 workspace.blackberry
+workspace.android
+org.eclipse.jdt.core.prefs
 
 # Ignore thumbnails created by windows
 Thumbs.db
