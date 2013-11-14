@@ -1,3 +1,23 @@
+Skyways
+=======
+
+Skyways is a prototype in which you have to direct ships in space that are ejected from the
+stations to their corresponding station, marked by their colors. The player’s tool is their
+finger, which creates a gravity field that attract ships to the center of the finger. There 
+are planets in the middle of the screen that also have their own gravity field, and in which
+ships can fall into.
+
+Ships that go outside the screen or crash between are lost. Each launch costs money, and 
+when there is no more money to launch ships nor ships available, the game is over.
+
+You will find a gameplay video in Youtube at http://youtu.be/jRENBJKHOuA
+
+This was an assignment for the subject Tools & Middleware at the MSc Computer Games &
+Entertainment course at Goldsmiths, London, UK.
+
+The following text describes how to compile cocos2d-x, and this game, under the platform
+of your choice.
+
 cocos2d-x
 =========
 
